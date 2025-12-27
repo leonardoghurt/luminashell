@@ -1,0 +1,46 @@
+from xdg.DesktopEntry import DesktopEntry 
+from subprocess import run, PIPE
+from gi.repository import Gtk
+from gi.repository import Gio
+
+class Dock:
+    def __init__(self):
+        self.dock_files = {
+            "File Manager": {
+                "path": self._getDefault("inode/directory"),
+                "icon": "media/icons/files_icon.png"
+            },
+            "Web Browser": {
+                "path": self._getDefault("text/html"),
+                "icon": "media/icons/browser_icon.png"
+            },
+            "Music Player": {
+                "path": self._getDefault("audio/mpeg"),
+                "icon": "media/icons/music_icon.png"
+            },
+            "Video Player": {
+                "path": self._getDefault("video/mp4"),
+                "icon": "media/icons/video_icon.png"
+            },
+            "Image Viewer": {
+                "path": self._getDefault("image/jpeg"),
+                "icon": "media/icons/photo_icon.png"
+            },
+            "Calendar": {
+                "path": "apps/calendar/main.py",
+                "icon": "media/icons/calendar_icon.png"
+            },
+            "Clock": {
+                "path": "apps/clock/main.py",
+                "icon": "media/icons/clock_icon.png"
+            }
+        }
+    
+    def returndock(self):
+        return self.dock_files
+    
+    def _getDefault(self, mime_type):
+        app_info = Gio.AppInfo.get_default_for_type(mime_type, False)
+        if app_info:
+            return app_info.get_executable()
+        return None
