@@ -18,10 +18,9 @@ class DockWindow(Gtk.Window):
         self.dockview = DockView()
         self.add(self.dockview)
         self.show_all()
-
-        self.hide_timeout_id = None
         self.hide()
 
+        self.hide_timeout_id = None
         GLib.timeout_add(50, self.check_mouse_position)
 
     def check_mouse_position(self):
@@ -34,18 +33,15 @@ class DockWindow(Gtk.Window):
         win_x, win_y = self.get_position()
         win_width, win_height = self.get_size()
 
-        if win_x <= x <= win_x + win_width and win_y <= y <= win_y + win_height:
+        near_bottom = y >= screen_height - 5
+        over_window = win_x <= x <= win_x + win_width and win_y <= y <= win_y + win_height
+
+        if over_window or near_bottom:
             if self.hide_timeout_id:
                 GLib.source_remove(self.hide_timeout_id)
                 self.hide_timeout_id = None
             if not self.is_visible():
                 self.show_all()
-        elif y >= screen_height - 5:
-            if not self.is_visible():
-                self.show_all()
-            if self.hide_timeout_id:
-                GLib.source_remove(self.hide_timeout_id)
-                self.hide_timeout_id = None
         else:
             if self.is_visible() and self.hide_timeout_id is None:
                 self.hide_timeout_id = GLib.timeout_add(400, self.hide_dock)
