@@ -1,36 +1,60 @@
 import gi
 gi.require_version("Gtk", "3.0")
 gi.require_version("GtkLayerShell", "0.1")
-from gi.repository import Gtk, GtkLayerShell, Gdk
+from gi.repository import Gtk, GtkLayerShell, Gdk, GLib
 from DockView import DockView
 
 class DockWindow(Gtk.Window):
     def __init__(self):
-        super().__init__(title="Application Dock")
-
+        super().__init__()
         GtkLayerShell.init_for_window(self)
-
         GtkLayerShell.set_layer(self, GtkLayerShell.Layer.TOP)
-
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.BOTTOM, True)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.LEFT, True)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.RIGHT, True)
-
-        GtkLayerShell.set_exclusive_zone(self, True)
-
+        GtkLayerShell.set_exclusive_zone(self, 0)
+        GtkLayerShell.set_margin(self, GtkLayerShell.Edge.BOTTOM, 0)
         self.set_decorated(False)
         self.set_resizable(False)
 
-        style_provider = Gtk.CssProvider()
-        style_provider.load_from_path("css/dockwindowStylesheet.css")
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
+        self.dockview = DockView()
+        self.add(self.dockview)
+        self.show_all()
 
-        self.add(DockView())
+        self.hide_timeout_id = None
+        self.hide()
 
+        GLib.timeout_add(50, self.check_mouse_position)
+
+    def check_mouse_position(self):
+        display = Gdk.Display.get_default()
+        seat = display.get_default_seat()
+        pointer = seat.get_pointer()
+        _, x, y = pointer.get_position()
+
+        screen_height = self.get_screen().get_height()
+        win_x, win_y = self.get_position()
+        win_width, win_height = self.get_size()
+
+        if win_x <= x <= win_x + win_width and win_y <= y <= win_y + win_height:
+            if self.hide_timeout_id:
+                GLib.source_remove(self.hide_timeout_id)
+                self.hide_timeout_id = None
+            if not self.is_visible():
+                self.show_all()
+        elif y >= screen_height - 5:
+            if not self.is_visible():
+                self.show_all()
+            if self.hide_timeout_id:
+                GLib.source_remove(self.hide_timeout_id)
+                self.hide_timeout_id = None
+        else:
+            if self.is_visible() and self.hide_timeout_id is None:
+                self.hide_timeout_id = GLib.timeout_add(400, self.hide_dock)
+
+        return True
+
+    def hide_dock(self):
+        self.hide()
+        self.hide_timeout_id = None
+        return False
 
 win = DockWindow()
-win.show_all()
