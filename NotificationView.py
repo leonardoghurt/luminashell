@@ -14,9 +14,12 @@ class NotificationView(Gtk.Window):
         GtkLayerShell.set_layer(self, GtkLayerShell.Layer.OVERLAY)
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.TOP, True)
         GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.RIGHT, True)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.LEFT, True)
+        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.LEFT, False)
 
-        self.set_default_size(screen_object.width(), screen_object.height() // 10)
+        GtkLayerShell.set_margin(self, GtkLayerShell.Edge.TOP, 20)
+        GtkLayerShell.set_margin(self, GtkLayerShell.Edge.RIGHT, 20)
+
+        self.set_size_request(-1, -1)
 
         self.set_decorated(False)
         self.set_resizable(False)
@@ -30,11 +33,13 @@ class NotificationView(Gtk.Window):
         )
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        box.set_name("notification-box")
         self.add(box)
 
         label = Gtk.Label(label=notification_text)
-        label.set_halign(Gtk.Align.CENTER)  # Centra horizontalmente
+        label.set_halign(Gtk.Align.CENTER)  
         label.set_valign(Gtk.Align.CENTER)
+        label.set_name("notification-label")
         box.pack_start(label, True, True, 0)
         box.set_halign(Gtk.Align.CENTER)
         box.set_valign(Gtk.Align.CENTER)
