@@ -23,6 +23,7 @@ class NotificationView(Gtk.Window):
 
         self.set_decorated(False)
         self.set_resizable(False)
+        self.set_app_paintable(True)
 
         style_provider = Gtk.CssProvider()
         style_provider.load_from_path("css/notificationStylesheet.css")

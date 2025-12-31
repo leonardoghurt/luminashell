@@ -21,6 +21,7 @@ class View(Gtk.Window):
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         self.add(self.box)
+        self.box.set_name("mainBox")
 
         self.timelabel = Gtk.Label(label="00:00:00")
         self.timelabel.set_name("time-label")
