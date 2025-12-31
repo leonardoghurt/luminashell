@@ -1,6 +1,6 @@
 from xdg.DesktopEntry import DesktopEntry 
 from subprocess import run, PIPE
-from gi.repository import Gtk
+from gi.repository import Gtk, GdkPixbuf
 from gi.repository import Gio
 
 class Dock:
@@ -8,7 +8,11 @@ class Dock:
         self.dock_files = {
             "File Manager": {
                 "path": self._getDefault("inode/directory"),
-                "icon": "media/icons/files_icon.png"
+                "icon": "media/icons/finder_icon.png"
+            },
+            "Launchpad": {
+                "path": "apps/launchpad/main.py",
+                "icon": "media/icons/launchpad_icon.png"
             },
             "Web Browser": {
                 "path": self._getDefault("text/html"),
@@ -26,16 +30,11 @@ class Dock:
                 "path": self._getDefault("image/jpeg"),
                 "icon": "media/icons/photo_icon.png"
             },
-            "Calendar": {
-                "path": "apps/calendar/main.py",
-                "icon": "media/icons/calendar_icon.png"
-            },
             "Clock": {
                 "path": "apps/clock/main.py",
                 "icon": "media/icons/clock_icon.png"
             }
         }
-    
     def returndock(self):
         return self.dock_files
     

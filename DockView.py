@@ -1,8 +1,9 @@
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GdkPixbuf
 from Dock import Dock
 from subprocess import Popen, PIPE
+import config
 
 dock_object = Dock()
 def run(path):
@@ -34,13 +35,17 @@ class DockView(Gtk.Box):
         apps = dock_object.returndock()
 
         for app in apps:
-            path = apps[app]["path"]
-            btn = Gtk.Button()
-            btn.set_name("dock-button")
-            image = Gtk.Image.new_from_file(apps[app]["icon"])
-            btn.set_image(image)
-            btn.connect(
-                "clicked",
-                lambda *_ , p=path: run(p)
-            )
-            self.pack_start(btn, False, False, 0)
+            try:
+                path = apps[app]["path"]
+                btn = Gtk.Button()
+                btn.set_name("dock-button")
+                image = Gtk.Image.new_from_file(apps[app]["icon"])
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(apps[app]["icon"], config.icon_size, config.icon_size)
+                image.set_from_pixbuf(pixbuf)
+                btn.set_image(image)
+                btn.connect(
+                    "clicked",
+                    lambda *_ , p=path: run(p)
+                )
+                self.pack_start(btn, False, False, 0)
+            except: pass
