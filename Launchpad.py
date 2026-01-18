@@ -1,3 +1,4 @@
+from multiprocessing.util import info
 from xdg.DesktopEntry import DesktopEntry 
 from subprocess import run, PIPE
 from gi.repository import Gtk
@@ -9,7 +10,7 @@ class Launchpad:
         theme = Gtk.IconTheme.get_default()
         info = theme.lookup_icon(icon_name, 48, 0)
         if info:
-            return info.get_executable()
+            return info.get_filename()
         return None
     def builddict(self):
         files = run("file -k /usr/share/applications/*.desktop | cut -d: -f1", shell=True, stdout=PIPE, stderr=PIPE)

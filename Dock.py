@@ -11,7 +11,7 @@ class Dock:
                 "icon": "media/icons/finder_icon.png"
             },
             "Launchpad": {
-                "path": "apps/launchpad/main.py",
+                "path": "apps/launchpad/View.py",
                 "icon": "media/icons/launchpad_icon.png"
             },
             "Web Browser": {

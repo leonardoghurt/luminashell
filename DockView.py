@@ -9,6 +9,7 @@ dock_object = Dock()
 def run(path):
     if path.endswith(".py"):
         com = Popen(f"python3 {path}", stdout=PIPE, stderr=PIPE, shell=True)
+        print(com.stderr.read().decode())
     else:
         Popen(path, stdout=PIPE, stderr=PIPE, shell=True)
 
