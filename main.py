@@ -1,6 +1,5 @@
 from Background import Background
 from DockWindow import DockWindow
-from Topbar import Topbar
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -11,9 +10,6 @@ def main():
 
     dock = DockWindow()
     dock.show_all()
-
-    topbar = Topbar()
-    topbar.show_all()
 
     Gtk.main()
 
