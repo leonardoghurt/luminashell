@@ -8,10 +8,9 @@ import config
 dock_object = Dock()
 def run(path):
     if path.endswith(".py"):
-        com = Popen(f"python3 {path}", stdout=PIPE, stderr=PIPE, shell=True)
-        print(com.stderr.read().decode())
+        com = Popen(f"python3 {path}", shell=True)
     else:
-        Popen(path, stdout=PIPE, stderr=PIPE, shell=True)
+        Popen(path, shell=True)
 
 class DockView(Gtk.Box):
     def __init__(self):
