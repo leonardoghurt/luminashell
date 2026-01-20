@@ -10,6 +10,7 @@ class View(Gtk.Window):
         self.set_default_size(200, 150)
 
         self.set_app_paintable(True)
+        self.set_resizable(False)
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_path("css/transparentStylesheet.css")

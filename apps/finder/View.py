@@ -19,6 +19,7 @@ class View(Gtk.Window):
         self.set_default_size(800, 600)
 
         self.set_app_paintable(True)
+        self.set_resizable(False)
         screen = self.get_screen()
         visual = screen.get_rgba_visual()
         if visual:
