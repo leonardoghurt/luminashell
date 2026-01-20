@@ -53,16 +53,19 @@ class View(Gtk.Window):
                 height=config.icon_size,
                 preserve_aspect_ratio=True
             )
-            image = Gtk.Image.new_from_pixbuf(pixbuf)
 
+            button_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+
+            image = Gtk.Image.new_from_pixbuf(pixbuf)
             label = Gtk.Label(label=name)
 
             button = Gtk.Button()
             button.add(image)
-            button.add(label)
+            button_box.add(button)
+            button_box.add(label)
             button.connect("clicked", lambda: self.change_directory(item_path))
 
-            self.grid.attach(button, len(self.grid.get_children()) % 8, len(self.grid.get_children()) // 8, 1, 1)
+            self.grid.attach(button_box, len(self.grid.get_children()) % 8, len(self.grid.get_children()) // 8, 1, 1)
 
         self.scrolled_window.add(self.grid)
         self.show_all()
