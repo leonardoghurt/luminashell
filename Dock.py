@@ -6,8 +6,8 @@ from gi.repository import Gio
 class Dock:
     def __init__(self):
         self.dock_files = {
-            "File Manager": {
-                "path": self._getDefault("inode/directory"),
+            "Finder": {
+                "path": "apps/finder/View.py",
                 "icon": "media/icons/finder_icon.png"
             },
             "Launchpad": {
@@ -15,7 +15,7 @@ class Dock:
                 "icon": "media/icons/launchpad_icon.png"
             },
             "Web Browser": {
-                "path": self._getDefault("text/html"),
+                "path": "chromium",
                 "icon": "media/icons/browser_icon.png"
             },
             "Music Player": {
