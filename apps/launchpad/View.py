@@ -97,6 +97,5 @@ class View(Gtk.Window):
         Popen(["gtk-launch", app_id])
         self.destroy()
 
-
 View()
 Gtk.main()

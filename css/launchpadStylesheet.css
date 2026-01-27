@@ -6,13 +6,13 @@ window {
     border-radius: 10px;
 }
 #mainBox {
-    padding: 40px;
+    padding: 160px;
     border-radius: 10px;
 }
 button {
     min-width: 48px;
     min-height: 48px;
-    margin: 0 6px;
+    margin: 20px;
 
     background-color: transparent;
     background-image: none;
@@ -26,8 +26,6 @@ button {
 }
 
 button:hover {
-    margin-bottom: 5px;
-
     background-color: rgba(255, 255, 255, 0.35);
 
     box-shadow:
