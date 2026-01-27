@@ -18,6 +18,10 @@ class Dock:
                 "path": "chromium",
                 "icon": "media/icons/browser_icon.png"
             },
+            "Settings": {
+                "path": "apps/settings/View.py",
+                "icon": "media/icons/settings_icon.png"
+            },
             "Music Player": {
                 "path": self._getDefault("audio/mpeg"),
                 "icon": "media/icons/music_icon.png"
