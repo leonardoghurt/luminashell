@@ -1,7 +1,14 @@
-#dock {
+window {
     background-color: transparent;
+    font-size: large;
+    color: rgb(0, 0, 0);
+    border: 2px;
+    border-radius: 10px;
 }
-
+#mainBox {
+    padding: 40px;
+    border-radius: 10px;
+}
 button {
     min-width: 48px;
     min-height: 48px;

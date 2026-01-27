@@ -20,15 +20,8 @@ class View(Gtk.Window):
     def __init__(self):
         super().__init__(title="Launchpad")
 
-        GtkLayerShell.init_for_window(self)
-        GtkLayerShell.set_layer(self, GtkLayerShell.Layer.TOP)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.TOP, True)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.BOTTOM, True)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.LEFT, True)
-        GtkLayerShell.set_anchor(self, GtkLayerShell.Edge.RIGHT, True)
-
+        self.maximize()
         self.set_border_width(10)
-        self.set_default_size(760, 400)
 
         self.set_app_paintable(True)
         screen = self.get_screen()
@@ -37,7 +30,7 @@ class View(Gtk.Window):
             self.set_visual(visual)
 
         css_provider = Gtk.CssProvider()
-        css_provider.load_from_path("css/transparentStylesheet.css")
+        css_provider.load_from_path("css/launchpadStylesheet.css")
         Gtk.StyleContext.add_provider_for_screen(
             screen,
             css_provider,
@@ -49,6 +42,8 @@ class View(Gtk.Window):
             Gtk.PolicyType.AUTOMATIC,
             Gtk.PolicyType.AUTOMATIC
         )
+        self.scrolled_window.set_hexpand(True)
+        self.scrolled_window.set_vexpand(True)
         self.add(self.scrolled_window)
 
         self.grid = Gtk.Grid()
@@ -56,11 +51,17 @@ class View(Gtk.Window):
         self.grid.set_column_spacing(10)
         self.grid.set_name("mainBox")
 
+        self.grid.set_halign(Gtk.Align.CENTER)
+        self.grid.set_valign(Gtk.Align.CENTER)
+
         self.scrolled_window.add(self.grid)
+
+        screen_width = screen_object.width()
+        icon_space = config.icon_size + 100
+        max_cols = max(1, screen_width // icon_space)
 
         col = 0
         row = 0
-        max_cols = screen_object.height()/int(config.icon_size+6)
 
         apps = launchpad_object.builddict()
 
@@ -68,10 +69,7 @@ class View(Gtk.Window):
             path = data.get("path")
             icon = data.get("icon")
 
-            if not path or not icon:
-                continue
-            if not os.path.exists(icon):
-                print("Icon not found:", icon)
+            if not path or not icon or not os.path.exists(icon):
                 continue
 
             btn = Gtk.Button()
@@ -80,8 +78,7 @@ class View(Gtk.Window):
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
                 icon, config.icon_size, config.icon_size
             )
-            image = Gtk.Image.new_from_pixbuf(pixbuf)
-            btn.set_image(image)
+            btn.set_image(Gtk.Image.new_from_pixbuf(pixbuf))
 
             btn.connect("clicked", self.launch_app, path)
 
