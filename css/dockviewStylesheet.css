@@ -1,13 +1,5 @@
 #dock {
     background-color: transparent;
-    padding: 8px 12px;
-
-    border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-
-    box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.25),
-        inset 0 1px rgba(255, 255, 255, 0.6);
 }
 
 button {

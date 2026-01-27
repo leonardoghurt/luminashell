@@ -12,7 +12,7 @@ from Folder import Folder
 class View(Gtk.Window):
     def __init__(self):
         super().__init__(title="Finder")
-        
+
         directory = Folder("/")
 
         self.set_border_width(10)
@@ -71,7 +71,8 @@ class View(Gtk.Window):
         self.scrolled_window.add(self.grid)
         self.show_all()
     def change_directory(self, path):
-        pass
+        directory = Folder(path)
+        
 
 View()
 Gtk.main()
